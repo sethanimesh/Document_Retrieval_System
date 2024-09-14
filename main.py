@@ -6,6 +6,8 @@ from models import User, Base
 from database import engine, get_db
 from sqlalchemy.orm import Session
 
+Base.metadata.create_all(bind=engine)
+
 app = FastAPI()
 
 index = get_faiss_index()
@@ -38,6 +40,7 @@ def update_user_request_count(user_id: str, db: Session):
         db.commit()
 
 class SearchRequest(BaseModel):
+    user_id: int = 1
     text: str = "example query"  
     top_k: int = 5               
     threshold: float = 0.5       
