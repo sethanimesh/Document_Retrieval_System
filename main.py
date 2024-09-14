@@ -29,9 +29,11 @@ add_document_to_index(documents[0])
 add_document_to_index(documents[1])
 add_document_to_index(documents[2])
 
-def update_user_request_count(user_id: str, db: Session):
+def update_user_request_count(user_id: int, db: Session):
     user = db.query(User).filter(User.user_id == user_id).first()
     if user:
+        if user.request_count > 5:
+            raise HTTPException(status_code=429, detail="Request limit exceeded.")
         user.request_count += 1
         db.commit()
     else:
