@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends
 from pydantic import BaseModel
 import numpy as np
 from faiss_embedding import get_faiss_index, get_model, add_document_to_index
@@ -43,10 +43,13 @@ class SearchRequest(BaseModel):
     threshold: float = 0.5       
 
 @app.post("/search")
-async def search(search_request: SearchRequest):
+async def search(search_request: SearchRequest, db: Session = Depends(get_db)):
+    user_id = search_request.user_id
     query_text = search_request.text
     top_k = search_request.top_k
     threshold = search_request.threshold
+
+    update_user_request_count(user_id, db)
 
     query_embedding = model.encode([query_text])
     query_embedding = np.array(query_embedding).astype('float32')
