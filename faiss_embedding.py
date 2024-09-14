@@ -21,3 +21,12 @@ def get_faiss_index():
 
 def get_model():
     return model
+
+def add_document_to_index(document: str):
+    embedding = model.encode([document])
+    embedding = np.array(embedding).astype('float32')
+    
+    index.add(embedding)
+    print("Document added to FAISS.")
+
+    print(embedding)
