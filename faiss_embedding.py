@@ -29,4 +29,4 @@ def add_document_to_index(document: str):
     index.add(embedding)
     print("Document added to FAISS.")
 
-    print(embedding)
+    print(f"Number of documents in FAISS index: {index.ntotal}")
