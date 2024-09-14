@@ -24,7 +24,7 @@ Ensure you have the following installed:
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/sethanimesh/document-retrieval-system.git
+git clone https://github.com/sethanimesh/21BBS0053_ML.git
 ```
 
 ### Install Dependencies
