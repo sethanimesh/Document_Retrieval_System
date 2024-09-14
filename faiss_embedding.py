@@ -15,3 +15,9 @@ embedding = np.array(embedding).astype('float32')
 index.add(embedding)
 
 print("Document added to FAISS.")
+
+def get_faiss_index():
+    return index
+
+def get_model():
+    return model
