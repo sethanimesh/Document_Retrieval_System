@@ -2,6 +2,9 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import numpy as np
 from faiss_embedding import get_faiss_index, get_model, add_document_to_index
+from models import User, Base
+from database import engine, get_db
+from sqlalchemy.orm import Session
 
 app = FastAPI()
 
@@ -23,6 +26,16 @@ documents = [
 add_document_to_index(documents[0])
 add_document_to_index(documents[1])
 add_document_to_index(documents[2])
+
+def update_user_request_count(user_id: str, db: Session):
+    user = db.query(User).filter(User.user_id == user_id).first()
+    if user:
+        user.request_count += 1
+        db.commit()
+    else:
+        new_user = User(user_id=user_id, request_count=1)
+        db.add(new_user)
+        db.commit()
 
 class SearchRequest(BaseModel):
     text: str = "example query"  
